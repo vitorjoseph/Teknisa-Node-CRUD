@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>CRUD Interativo</title>
+</head>
+<body>
+  <h1>CRUD Interativo</h1>
+
+  <h2>Criar Programador</h2>
+  <form id="create-form">
+    <label for="name">Nome:</label>
+    <input type="text" id="name" required><br><br>
+    
+    <label for="javascript">JavaScript:</label>
+    <input type="checkbox" id="javascript" checked><br><br>
+    
+    <label for="java">Java:</label>
+    <input type="checkbox" id="java" checked><br><br>
+    
+    <label for="python">Python:</label>
+    <input type="checkbox" id="python" checked><br><br>
+    
+    <button type="submit">Criar</button>
+  </form>
+
+  <h2>Recuperar Programador</h2>
+  <form id="retrieve-form">
+    <label for="retrieve-id">ID:</label>
+    <input type="number" id="retrieve-id" required><br><br>
+    
+    <button type="submit">Recuperar</button>
+  </form>
+
+  <h2>Atualizar Programador</h2>
+  <form id="update-form">
+    <label for="update-id">ID:</label>
+    <input type="number" id="update-id" required><br><br>
+    
+    <label for="update-name">Nome:</label>
+    <input type="text" id="update-name" required><br><br>
+    
+    <label for="update-javascript">JavaScript:</label>
+    <input type="checkbox" id="update-javascript" checked><br><br>
+    
+    <label for="update-java">Java:</label>
+    <input type="checkbox" id="update-java" checked><br><br>
+    
+    <label for="update-python">Python:</label>
+    <input type="checkbox" id="update-python" checked><br><br>
+    
+    <button type="submit">Atualizar</button>
+  </form>
+
+  <h2>Excluir Programador</h2>
+  <form id="delete-form">
+    <label for="delete-id">ID:</label>
+    <input type="number" id="delete-id" required><br><br>
+    
+    <button type="submit">Excluir</button>
+  </form>
+
+  <h2>Respostas do Servidor</h2>
+  <div id="response-container"></div>
+
+  <script>
+    // Função utilitária para fazer uma requisição HTTP usando fetch()
+    async function makeRequest(url, method, body = null) {
+      try {
+        const response = await fetch(url, {
+          method,
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: body ? JSON.stringify(body) : null
+        });
+        
+        const data = await response.json();
+        return data;
+      } catch (error) {
+        console.error(error);
+        return { error: 'Ocorreu um erro na requisição.' };
+      }
+    }
+
+    // Lidar com o envio do formulário de criação
+    const createForm = document.getElementById('create-form');
+    createForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      const name = document.getElementById('name').value;
+      const javascript = document.getElementById('javascript').checked;
+     
+      const java = document.getElementById('java').checked;
+      const python = document.getElementById('python').checked;
+
+      const response = await makeRequest('/programmers', 'POST', { name, javascript, java, python });
+      const responseContainer = document.getElementById('response-container');
+      responseContainer.textContent = JSON.stringify(response);
+    });
+
+    // Lidar com o envio do formulário de recuperação
+    const retrieveForm = document.getElementById('retrieve-form');
+    retrieveForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      const id = document.getElementById('retrieve-id').value;
+      const response = await makeRequest(`/programmers/${id}`, 'GET');
+      const responseContainer = document.getElementById('response-container');
+      responseContainer.textContent = JSON.stringify(response);
+    });
+
+    // Lidar com o envio do formulário de atualização
+    const updateForm = document.getElementById('update-form');
+    updateForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      const id = document.getElementById('update-id').value;
+      const name = document.getElementById('update-name').value;
+      const javascript = document.getElementById('update-javascript').checked;
+      const java = document.getElementById('update-java').checked;
+      const python = document.getElementById('update-python').checked;
+
+      const response = await makeRequest(`/programmers/${id}`, 'PUT', { name, javascript, java, python });
+      const responseContainer = document.getElementById('response-container');
+      responseContainer.textContent = JSON.stringify(response);
+    });
+
+    // Lidar com o envio do formulário de exclusão
+    const deleteForm = document.getElementById('delete-form');
+    deleteForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      const id = document.getElementById('delete-id').value;
+      const response = await makeRequest(`/programmers/${id}`, 'DELETE');
+      const responseContainer = document.getElementById('response-container');
+      responseContainer.textContent = JSON.stringify(response);
+    });
+  </script>
+</body>
+</html>

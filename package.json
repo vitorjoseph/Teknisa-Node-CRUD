@@ -1,0 +1,24 @@
+{
+  "dependencies": {
+    "express": "^4.18.2",
+    "sequelize": "^6.32.0",
+    "sqlite3": "^5.1.6"
+  },
+  "name": "teknisa-node-crud",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vitorjoseph/Teknisa-Node-CRUD.git"
+  },
+  "author": "Vítor José",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vitorjoseph/Teknisa-Node-CRUD/issues"
+  },
+  "homepage": "https://github.com/vitorjoseph/Teknisa-Node-CRUD#readme",
+  "description": ""
+}
